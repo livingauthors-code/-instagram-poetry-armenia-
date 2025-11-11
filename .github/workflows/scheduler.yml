@@ -33,7 +33,7 @@ jobs:
     - name: Install system dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y ffmpeg python3-pip
+        sudo apt-get install -y ffmpeg python3-pip imagemagick libmagickwand-dev
         echo "✅ System dependencies installed"
 
      # Шаг 5: Установка Python библиотек
