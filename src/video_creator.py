@@ -1,4 +1,12 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
+import random
+from config import Config
+
+import os
 import random
 from moviepy.editor import VideoFileClip, AudioFileClip, TextClip, CompositeVideoClip, ColorClip
 from moviepy.video.fx.all import fadein, fadeout
