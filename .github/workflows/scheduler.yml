@@ -36,7 +36,7 @@ jobs:
         sudo apt-get install -y ffmpeg python3-pip
         echo "✅ System dependencies installed"
 
-    # Шаг 5: Установка Python библиотек
+       # Шаг 5: Установка Python библиотек
     - name: Install Python dependencies
       run: |
         echo "📦 Installing Python dependencies directly..."
