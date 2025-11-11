@@ -1,7 +1,10 @@
 import os
 import sys
 import time
-from datetime import datetime
+
+# ⬇️ ДОБАВЬ ЭТИ СТРОКИ ДЛЯ ИМПОРТА ИЗ КОРНЕВОЙ ПАПКИ
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from config import Config
 from poem_manager import PoemManager
 from audio_generator import AudioGenerator
@@ -85,6 +88,8 @@ def main():
             
     except Exception as e:
         print(f"\n❌ CRITICAL ERROR: {e}")
+        import traceback
+        traceback.print_exc()
         sys.exit(1)
 
 if __name__ == "__main__":
