@@ -1,0 +1,70 @@
+name: Daily Poetry Post - Armenia
+
+on:
+  schedule:
+    - cron: '0 8 * * *'  # 12:00 по Еревану (UTC+4)
+  workflow_dispatch:  # Позволяет запускать вручную
+
+jobs:
+  generate-and-post:
+    runs-on: ubuntu-latest
+    
+    env:
+      TZ: Asia/Yerevan  # Часовой пояс Армении
+    
+    steps:
+    # Шаг 1: Установка часового пояса Армении
+    - name: Set Armenian timezone
+      run: |
+        sudo timedatectl set-timezone Asia/Yerevan
+        echo "🕒 Timezone set to Armenia (Yerevan)"
+        
+    # Шаг 2: Загрузка кода
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    # Шаг 3: Установка Python
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    # Шаг 4: Установка системных зависимостей
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y ffmpeg python3-pip
+        echo "✅ System dependencies installed"
+
+    # Шаг 5: Установка Python библиотек
+    - name: Install Python dependencies
+      run: |
+        pip install -r requirements.txt
+        echo "✅ Python dependencies installed"
+
+    # Шаг 6: Запуск бота
+    - name: Run Instagram Poetry Bot
+      env:
+        INSTAGRAM_USERNAME: ${{ secrets.INSTAGRAM_USERNAME }}
+        INSTAGRAM_PASSWORD: ${{ secrets.INSTAGRAM_PASSWORD }}
+      run: |
+        echo "🚀 Starting poetry bot for Armenia..."
+        python src/main.py
+
+    # Шаг 7: Сохранение видео (Artifacts v4)
+    - name: Upload generated video
+      uses: actions/upload-artifact@v4
+      with:
+        name: poetry-video-armenia
+        path: |
+          output/videos/
+          output/audio/
+        retention-days: 7
+        if-no-files-found: warn
+      
+    # Шаг 8: Очистка (опционально)
+    - name: Cleanup
+      run: |
+        echo "🧹 Cleaning up temporary files"
+        rm -rf output/audio/*.mp3
+        echo "✅ Cleanup completed"
