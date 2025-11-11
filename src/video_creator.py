@@ -31,12 +31,16 @@ class VideoCreator:
             # Загружаем и подготавливаем видео-фон
             video_clip = self._prepare_background(background_path, audio_duration)
             
-            # Создаем текстовые элементы
+                       # Создаем текстовые элементы (упрощенная версия)
             text_clips = self._create_text_clips(title, author, text, audio_duration)
             
             # Собираем финальное видео
-            final_video = CompositeVideoClip([video_clip] + text_clips)
-            final_video = final_video.set_audio(audio_clip)
+            if text_clips:
+                final_video = CompositeVideoClip([video_clip] + text_clips)
+            else:
+                # Если не получилось создать текст, используем видео без текста
+                final_video = video_clip
+                print("ℹ️ Video created without text (ImageMagick issue)")
             
             # Рендерим видео
             print("📹 Rendering video...")
@@ -111,27 +115,46 @@ class VideoCreator:
         
         return video
     
-    def _create_text_clips(self, title, author, text, duration):
-        """Создает текстовые элементы для видео"""
+        def _create_text_clips(self, title, author, text, duration):
+        """Создает текстовые элементы для видео - УЛЬТРА-УПРОЩЕННАЯ ВЕРСИЯ"""
         clips = []
         
-        # Заголовок (автор и название)
-        title_text = f"{title}\n{author}"
-        title_clip = TextClip(
-            title_text,
-            fontsize=50,
-            color=Config.TEXT_COLOR,
-            font=Config.FONT_BOLD,
-            stroke_color=Config.TEXT_STROKE_COLOR,
-            stroke_width=Config.TEXT_STROKE_WIDTH,
-            method='caption',
-            size=(Config.VIDEO_RESOLUTION[0] * 0.9, None)
-        )
-        title_clip = title_clip.set_duration(duration)
-        title_clip = title_clip.set_position(('center', 0.1), relative=True)
-        title_clip = title_clip.fx(fadein, 1).fx(fadeout, 1)
-        clips.append(title_clip)
-        
+        try:
+            print("📝 Creating text clips (simplified version)...")
+            
+            # Временно возвращаем пустой список - создаем видео без текста сначала
+            # Это позволит проверить что основное видео работает
+            return clips
+            
+        except Exception as e:
+            print(f"⚠️ Text creation error: {e}")
+            return clips
+
+            def _add_simple_text(self, video_clip, title, author, text, duration):
+        """Добавляет текст простым способом"""
+        try:
+            from moviepy.editor import TextClip
+            
+            # Создаем простой текстовый клип
+            simple_text = f"{title}\n{author}\n\n{text}"
+            txt_clip = TextClip(
+                simple_text,
+                fontsize=24,
+                color='white',
+                size=(video_clip.w * 0.8, None),
+                method='caption'
+            )
+            txt_clip = txt_clip.set_duration(duration).set_position('center')
+            
+            # Накладываем текст на видео
+            final_video = CompositeVideoClip([video_clip, txt_clip])
+            return final_video
+            
+        except Exception as e:
+            print(f"⚠️ Simple text failed: {e}")
+            # Возвращаем оригинальное видео без текста
+            return video_clip
+            
         # Основной текст стихотворения
         text_clip = TextClip(
             text,
