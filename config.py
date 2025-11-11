@@ -20,8 +20,8 @@ class Config:
     BACKGROUND_MUSIC_VOLUME = 0.1
     
     # Настройки текста
-    FONT_PRIMARY = "Arial"  # Стандартный шрифт
-    FONT_BOLD = "Arial-Bold"
+    FONT_PRIMARY = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
+    FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
     TEXT_COLOR = "white"
     TEXT_STROKE_COLOR = "black"
     TEXT_STROKE_WIDTH = 2
