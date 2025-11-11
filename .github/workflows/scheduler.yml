@@ -39,7 +39,8 @@ jobs:
     # Шаг 5: Установка Python библиотек
     - name: Install Python dependencies
       run: |
-        pip install -r requirements.txt
+        echo "📦 Installing Python dependencies directly..."
+        pip install gtts==2.3.2 moviepy==1.0.3 pydub==0.25.1 selenium==4.15.0 pandas==2.1.3 opencv-python==4.8.1.78 Pillow==10.0.1 webdriver-manager==4.0.1
         echo "✅ Python dependencies installed"
 
     # Шаг 6: Запуск бота
