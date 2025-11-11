@@ -34,6 +34,14 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg python3-pip imagemagick libmagickwand-dev
+        # Исправляем политику безопасности ImageMagick
+        sudo sed -i 's/rights="none" pattern="PDF"/rights="read | write" pattern="PDF"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="PS"/rights="read | write" pattern="PS"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="EPS"/rights="read | write" pattern="EPS"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="URL"/rights="read | write" pattern="URL"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="HTTPS"/rights="read | write" pattern="HTTPS"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="MVG"/rights="read | write" pattern="MVG"/' /etc/ImageMagick-6/policy.xml
+        sudo sed -i 's/rights="none" pattern="TEXT"/rights="read | write" pattern="TEXT"/' /etc/ImageMagick-6/policy.xml
         echo "✅ System dependencies installed"
 
      # Шаг 5: Установка Python библиотек
