@@ -1,4 +1,13 @@
 import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import pandas as pd
+import random
+from config import Config
+
+
+import os
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
